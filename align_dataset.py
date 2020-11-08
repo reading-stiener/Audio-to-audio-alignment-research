@@ -11,7 +11,6 @@ import create_data
 #import djitw
 import collections
 
-
 def load_dataset(file_glob):
     """Load in a collection of feature files created by create_data.py.
 
