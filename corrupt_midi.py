@@ -84,7 +84,7 @@ def corrupt_instruments(midi_object, probability):
     midi_object : pretty_midi.PrettyMIDI
         MIDI object; program numbers will be randomly adjusted.
     probability : float
-        Probability \in [0, 1] that the program number will be adjusted.
+        Probability in [0, 1] that the program number will be adjusted.
     '''
     for instrument in midi_object.instruments:
         # Ignore drum instruments; changing their prog is futile

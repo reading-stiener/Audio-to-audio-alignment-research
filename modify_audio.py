@@ -2,8 +2,10 @@ import librosa
 import random
 import numpy as np
 import pprint
+import os
+import soundfile as sf
+import json
 # contains the defs to stretch and shrink audio
-
 def modify_snippet(snippet, rate):
     signal_snippet = librosa.effects.time_stretch(
         y=snippet,
@@ -60,12 +62,33 @@ def modify_signal(signal, sr):
         start_mod_idx += mod_snippet.shape[0]
     return np.concatenate(modified_sig), changes_dict
 
+def write_files(folder, filename, signal, sr, mod_dict): 
+    audio_file = filename + ".wav"
+    json_file = filename + ".json"
+    if not os.path.exists(folder):
+        os.mkdir(folder)
+    # write audio file
+    sf.write(
+        file=os.path.join(folder, audio_file),
+        data=signal,
+        samplerate=sr 
+    )
+    # write json file documenting adjustments
+    with open(os.path.join(folder, json_file), "w") as annotation:
+        json.dump(obj=mod_dict, fp=annotation, indent=2)
+
+
 if __name__ == "__main__": 
-    filename = "/home/camel/Documents/Honors Thesis Research/Audio-to-audio-alignment-research/URMP/01_Jupiter_vn_vc/AuMix_01_Jupiter_vn_vc.wav"
+    filename = "/home/camel/Documents/Honors Thesis Research/Audio-to-audio-alignment-research/URMP/01_Jupiter_vn_vc/AuSep_1_vn_01_Jupiter.wav"
     signal, sr = librosa.load(
         path = filename
     )
     print(signal)
     signal_modified, changes = modify_signal(signal, sr)
-    pprint.pprint(changes)
-    
+    write_files(
+        folder="annotations",
+        filename="Jupiter_vn_vc",
+        signal=signal_modified, 
+        sr=sr,
+        mod_dict=changes
+    )    
