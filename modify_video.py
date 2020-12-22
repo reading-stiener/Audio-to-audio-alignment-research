@@ -4,7 +4,7 @@ from pprint import pprint
 import os
 import json
 
-def modify_video(folder, filename, mod_dict):
+def modify_video(folder, filename, mod_dict, audio_file=None):
     with VideoFileClip(filename, audio=False) as videoclip:
         cliplist = []
         for changes in mod_dict:
@@ -14,8 +14,10 @@ def modify_video(folder, filename, mod_dict):
             cliplist.append(snippet.fx(speedx, rate))
         modified_clip = concatenate_videoclips(cliplist)
         inputfolder, inputfile = os.path.split(filename)
-        modified_clip.write_videofile(os.path.join(folder, inputfile))
-
+        if audio_file:
+            modified_clip.write_videofile(os.path.join(folder, inputfile[:-4]+ "_"+ audio_file.split("_")[1]) + ".mp4")
+        else:
+            modified_clip.write_videofile(os.path.join(folder, inputfile))
 if __name__ == "__main__":
     filename = "/home/camel/Documents/Honors Thesis Research/Audio-to-audio-alignment-research/LSTM_dataset_4/violin/01_Jupiter_vn_vc/violin_1.mp4"
     folder = "annotations"

@@ -136,3 +136,5 @@ test_corruptions_output/
 annotations/
 alignment-search/
 .vscode/
+DTW_dataset/
+DTW_dataset.zip

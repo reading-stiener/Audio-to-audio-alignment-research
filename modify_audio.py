@@ -15,6 +15,7 @@ def modify_snippet(snippet, rate):
 
 def modify_signal(signal, sr):
     start_idx = 0
+    print("audio time ", signal.shape[0]/sr)
     end_idx = signal.shape[0]
     start_mod_idx = 0
     snippet_lengths = [2, 3, 4, 5, 6, 7, 8, 9]
@@ -22,7 +23,7 @@ def modify_signal(signal, sr):
     changes_dict = []
     while start_idx < end_idx:
         snippet_length = random.choice(snippet_lengths) * sr
-        rate = random.random() * 3
+        rate = random.random() * 3 + 0.1
         if start_idx + snippet_length <= end_idx:
             mod_snippet = modify_snippet( 
                     snippet = signal[start_idx:start_idx+snippet_length],
